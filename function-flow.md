@@ -1,5 +1,5 @@
-# Function flow / DRAFT 
-Function flow for the authorship identification program
+# Function Flow 
+Function flow for the lyric detective program
 
 ```mermaid
 flowchart TD
