@@ -1,3 +1,25 @@
+The primary reason your program is failing to predict the correct artists is likely **inconsistent punctuation** in the lyrics files, which skews the `average_sentence_length` metric.
+
+* **The Problem:** The labeled Pusha-T file has almost no periods (`.`), causing the program to think the entire song is one giant sentence of **132 words**. If your unknown file has even a few periods (or is shorter), the "Sentence Length" difference becomes huge, incorrectly penalizing the match.
+* **The Fix:** Update the code to treat **Newlines** (`\n`) as sentence breaks. This standardizes "sentences" into "lines/bars," which is a much more accurate stylistic measure for lyrics.
+
+Here is the fixed `authorship.py`. I have also adjusted the **Weights** slightly to account for the new, smaller sentence lengths (since "lines" are shorter than "paragraphs," we increase the weight to make sure this feature still matters).
+
+### **Steps to Fix:**
+
+1. **Delete your old cache:** You **MUST** delete `song-lyrics/labeled-lyrics/signatures_cache.json` before running this. The old signatures are wrong.
+```bash
+rm song-lyrics/labeled-lyrics/signatures_cache.json
+
+```
+
+
+2. **Paste this code:** Replace your `authorship.py` with the code below.
+3. **Run:** `python authorship.py song-lyrics --test-all`
+
+### Updated `authorship.py`
+
+```python
 import sys
 import re
 import string
@@ -8,11 +30,12 @@ from typing import Optional, Dict, List, Tuple
 from concurrent.futures import ProcessPoolExecutor
 
 # --- Configuration ---
+# Updated weights to balance the new "Line Length" metric
 WEIGHTS = {
     "average_word_length": 11,
     "different_to_total": 33,
     "exactly_once_to_total": 50,
-    "average_sentence_length": 0.4,
+    "average_sentence_length": 1.5,  # Increased from 0.4 because line lengths are smaller
     "average_sentence_complexity": 4
 }
 
@@ -38,15 +61,20 @@ def split_string(text: str, delimiters: str) -> List[str]:
     return [p.strip() for p in parts if p.strip()]
 
 def split_into_sentences(text: str) -> List[str]:
-    """Splits text into sentences based on standard terminal punctuation.
+    """Splits text into sentences based on newlines and standard punctuation.
+    
+    For lyrics, treating each line (newline) as a sentence allows for 
+    better stylistic comparison than relying solely on punctuation.
 
     Args:
         text (str): The full text to process.
 
     Returns:
-        List[str]: A list of sentences split by '.', '!', or '?'.
+        List[str]: A list of sentences/lines.
     """
-    return split_string(text, ".!?")
+    # Treat newlines as sentence terminators by replacing them with a period
+    normalized_text = text.replace('\n', '.')
+    return split_string(normalized_text, ".!?")
 
 def split_into_phrases(sentence: str) -> List[str]:
     """Splits a sentence into phrases based on intermediate punctuation.
@@ -425,3 +453,5 @@ if __name__ == "__main__":
         test_all_unknowns(labeled_dir, unlabeled_dir)
     else:
         main(labeled_dir, unlabeled_dir)
+
+```
