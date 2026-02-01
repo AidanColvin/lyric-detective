@@ -1,8 +1,3 @@
-# Function Flow 
-Function flow for the authorship identification program
-
-```mermaid
-
 flowchart TD
     %% --- Top Level Functions ---
     main
