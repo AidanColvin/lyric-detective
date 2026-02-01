@@ -1,10 +1,3 @@
-# lyric-detective
-A stylistic analysis tool that identifies musical artists by calculating statistical signatures from their lyrics. It uses linguistic feature weighting to predict the authorship of unidentified songs
-
-Here is the updated **Gold Standard README** for your project. It includes the correct directory structure (`labeled-lyrics` and `unlabeled-lyrics`), updated usage instructions, and a professional layout.
-
----
-
 # Song Lyrics Authorship Identification
 
 **A stylistic analysis tool for identifying the authors of anonymous song lyrics.**
