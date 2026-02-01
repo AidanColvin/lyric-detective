@@ -1,5 +1,10 @@
+# Function Flow 
+Function flow for the authorship identification program
+
+```mermaid
+
 flowchart TD
-    %% --- Top Level Script Functions ---
+    %% --- Top Level Functions ---
     main
     choose_file
     guess_author
@@ -9,63 +14,61 @@ flowchart TD
     calculate_distance
 
     %% --- TextStats Class Methods ---
-    subgraph TextStats_Class [TextStats Class]
-        direction TB
-        init[__init__]
-        get_sig[get_signature]
-        _get_clean[_get_clean_words]
-        
-        %% Metrics
-        avg_word[average_word_length]
-        diff_total[different_to_total]
-        once_total[exactly_once_to_total]
-        avg_sent[average_sentence_length]
-        avg_complex[average_sentence_complexity]
-    end
+    %% These replace the old standalone calculation functions
+    TextStats_init[TextStats.__init__]
+    TextStats_get_signature[TextStats.get_signature]
+    
+    TextStats_clean_words[TextStats._get_clean_words]
+    TextStats_avg_word[TextStats.average_word_length]
+    TextStats_diff_total[TextStats.different_to_total]
+    TextStats_once_total[TextStats.exactly_once_to_total]
+    TextStats_avg_sent[TextStats.average_sentence_length]
+    TextStats_avg_complex[TextStats.average_sentence_complexity]
 
-    %% --- Low Level Utilities ---
+    %% --- Low Level Helpers ---
     clean_word
     split_into_sentences
     split_into_phrases
     split_string
 
-    %% --- Execution Flow ---
-    
-    %% Main Entry
+    %% --- Flow Connections ---
+
+    %% Main Execution
     main --> choose_file
     main --> guess_author
 
-    %% Analyzing the Unknown File
-    guess_author --> init
-    guess_author --> get_sig
+    %% Guessing Logic
+    guess_author --> TextStats_init
+    guess_author --> TextStats_get_signature
     guess_author --> make_known_signatures
     guess_author --> find_closest_signature
 
-    %% Building Known Signatures (Parallel)
+    %% Known Signatures (Parallel Processing)
     make_known_signatures --> _process_single_file
-    _process_single_file --> init
-    _process_single_file --> get_sig
+    _process_single_file --> TextStats_init
+    _process_single_file --> TextStats_get_signature
 
-    %% The Comparison
+    %% Comparison
     find_closest_signature --> calculate_distance
 
-    %% --- Inside TextStats Class ---
+    %% --- Inside TextStats Logic ---
     
-    %% Initialization (The "Once" Logic)
-    init --> split_into_sentences
-    init --> _get_clean
-    _get_clean --> clean_word
+    %% Initialization (Optimization: calculate lists once)
+    TextStats_init --> split_into_sentences
+    TextStats_init --> TextStats_clean_words
+    TextStats_clean_words --> clean_word
 
-    %% Signature Generation calls all metrics
-    get_sig --> avg_word
-    get_sig --> diff_total
-    get_sig --> once_total
-    get_sig --> avg_sent
-    get_sig --> avg_complex
+    %% Getting the Signature (calls all metrics)
+    TextStats_get_signature --> TextStats_avg_word
+    TextStats_get_signature --> TextStats_diff_total
+    TextStats_get_signature --> TextStats_once_total
+    TextStats_get_signature --> TextStats_avg_sent
+    TextStats_get_signature --> TextStats_avg_complex
 
-    %% Complexity metric needs phrase splitting
-    avg_complex --> split_into_phrases
+    %% Metric Dependencies
+    %% (Note: Most now use the pre-calculated lists from init)
+    TextStats_avg_complex --> split_into_phrases
 
-    %% --- Utility Dependencies ---
+    %% Low Level Dependencies
     split_into_sentences --> split_string
     split_into_phrases --> split_string
