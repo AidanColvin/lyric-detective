@@ -90,7 +90,3 @@ python authorship.py . --test-all
 ## Credits
 
 **Author:** Aidan Colvin
-
-**Original Core Logic:** Ryan Shaw, PhD
-
-**Assignment:** A6 - Authorship Identification
