@@ -1,0 +1,30 @@
+{
+    "return-of-simba-j-cole-2017": {
+        "average_word_length": 3.879679144385027,
+        "different_to_total": 0.4852941176470588,
+        "exactly_once_to_total": 0.3382352941176471,
+        "average_sentence_length": 68.18181818181819,
+        "average_sentence_complexity": 7.7272727272727275
+    },
+    "one-beer-mf-doom-2004": {
+        "average_word_length": 3.857429718875502,
+        "different_to_total": 0.5803212851405622,
+        "exactly_once_to_total": 0.4397590361445783,
+        "average_sentence_length": 71.71428571428571,
+        "average_sentence_complexity": 4.714285714285714
+    },
+    "hypnotize-the-notorious-b.i.g.-1997": {
+        "average_word_length": 4.357241379310345,
+        "different_to_total": 0.3931034482758621,
+        "exactly_once_to_total": 0.2689655172413793,
+        "average_sentence_length": 36.45,
+        "average_sentence_complexity": 6.05
+    },
+    "just-so-you-remember-pusha-t-2022": {
+        "average_word_length": 4.415617128463476,
+        "different_to_total": 0.5163727959697733,
+        "exactly_once_to_total": 0.380352644836272,
+        "average_sentence_length": 132.33333333333334,
+        "average_sentence_complexity": 6.333333333333333
+    }
+}
