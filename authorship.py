@@ -1,4 +1,3 @@
-```python
 import sys
 import re
 import string
@@ -403,15 +402,21 @@ def test_all_unknowns(labeled_dir: Path, unlabeled_dir: Path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print(f"Usage: python {sys.argv[0]} texts_directory [--test-all]", file=sys.stderr)
+        print(f"Usage: python {sys.argv[0]} project_directory [--test-all]", file=sys.stderr)
         sys.exit(1)
     
     base_dir = Path(sys.argv[1])
-    labeled_dir = base_dir / "labeled"
-    unlabeled_dir = base_dir / "unlabeled"
     
-    if not labeled_dir.exists() or not unlabeled_dir.exists():
-        print("Error: Directory structure invalid. Ensure 'labeled' and 'unlabeled' folders exist.", file=sys.stderr)
+    # Configuration for 'labeled-lyrics' and 'unlabeled-lyrics'
+    labeled_dir = base_dir / "labeled-lyrics"
+    unlabeled_dir = base_dir / "unlabeled-lyrics"
+    
+    if not labeled_dir.exists():
+        print(f"Error: Could not find '{labeled_dir}'. Ensure the folder is named 'labeled-lyrics'.", file=sys.stderr)
+        sys.exit(1)
+    
+    if not unlabeled_dir.exists():
+        print(f"Error: Could not find '{unlabeled_dir}'. Ensure the folder is named 'unlabeled-lyrics'.", file=sys.stderr)
         sys.exit(1)
 
     mode = sys.argv[2] if len(sys.argv) > 2 else None
@@ -420,5 +425,3 @@ if __name__ == "__main__":
         test_all_unknowns(labeled_dir, unlabeled_dir)
     else:
         main(labeled_dir, unlabeled_dir)
-
-```
