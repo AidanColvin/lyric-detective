@@ -29,10 +29,10 @@ Your project must be organized exactly as follows for the script to locate the f
 song-lyrics/
 ├── authorship.py              # The main analysis script
 ├── labeled-lyrics/            # Database of known artist lyrics
-│   ├── hypnotize-the-notorious-b.i.g.-1997.txt
-│   ├── just-so-you-remember-pusha-t-2022.txt
-│   ├── one-beer-mf-doom-2004.txt
-│   └── return-of-simba-j-cole-2017.txt
+│   ├── The-Notorious-B.I.G.txt
+│   ├── Pusha-T.txt
+│   ├── MF-DOOM.txt
+│   └── J-Cole.txt
 └── unlabeled-lyrics/          # Files to analyze
     ├── unknown1.txt
     ├── unknown2.txt
